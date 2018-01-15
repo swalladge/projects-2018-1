@@ -6,6 +6,10 @@ import database.company
 import apiai
 
 class ChatBotWebSockets(tornado.websocket.WebSocketHandler):
+
+    def check_origin(*args, **kwargs):
+        return True
+
     def open(self):
         print("WS Open")
         self.chatBot = ChatBot()
@@ -44,7 +48,7 @@ class ChatBot:
 
         response = request.getresponse()
 
-        dictResponse = json.loads(response.read())
+        dictResponse = json.loads(response.read().decode('utf8'))
 
         responseMessage = dictResponse['result']['fulfillment']['speech'].strip()
 

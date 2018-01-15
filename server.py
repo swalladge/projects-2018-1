@@ -105,17 +105,20 @@ def pagenotfound_handler(request):
     render(request, 'pagenotfound.html', {"login": check_logged_in(request)})
 
 
-server = Server() # Create a server object
+server = Server(port=5005) # Create a server object
 server.register(r'/', index_handler)
 
 try:
+    print('attempting to init chatbot support')
     from chatbot.ai import ChatBotWebSockets
     # def chat_handler (request):
     #     return render(request, 'chatbot/chat.html', {"login": check_logged_in(request)})
     server.register(r'/ws/', ChatBotWebSockets)
     # server.register(r'/chat/', chat_handler)
-except ImportError:
-    pass
+    print('chatbot loaded and registered')
+except ImportError as e:
+    print('chatbot failed to init')
+    print(e)
 
 
 

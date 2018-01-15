@@ -58,7 +58,6 @@
   input {
     background-color: white;
     width: 100%;
-    padding: 1rem;
     height: 2rem;
     border: none;
     font-size: 1rem;
@@ -114,7 +113,7 @@
 
 <script>
 
-  window.ws = new WebSocket("ws://localhost:8888/ws/");
+  window.ws = new WebSocket(( location.protocol === 'https:' ? 'wss://' : 'ws://') + location.hostname+(location.port ? ':'+location.port: '') + '/ws/');
   ws.onmessage = (message) => {
     window.lastMessage = message;
     let messageLM = document.createElement("div");
